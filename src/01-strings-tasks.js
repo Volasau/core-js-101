@@ -199,6 +199,10 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(/* width, height */) {
+  /*   ┌  ┐
+        ─
+       └  ┘
+    */
   throw new Error('Not implemented');
 }
 
