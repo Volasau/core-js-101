@@ -35,13 +35,17 @@ function findElement(arr, value) {
  *    5 => [ 1, 3, 5, 7, 9 ]
  */
 function generateOdds(len) {
-  const arr = [];
-  let num = 1;
-  for (let i = 1; i <= len; i += 1) {
-    arr.push(num);
-    num += 2;
-  }
-  return arr;
+  //   const arr = [];
+  //   let num = 1;
+  //   for (let i = 1; i <= len; i += 1) {
+  //     arr.push(num);
+  //     num += 2;
+  //   }
+  //   return arr;
+
+  return Array(len)
+    .fill()
+    .map((_, index) => 2 * index + 1);
 }
 
 /**
@@ -56,8 +60,8 @@ function generateOdds(len) {
  *    [0, 1, 2, 3, 4, 5] => [0, 1, 2, 3, 4, 5,   0, 1, 2, 3, 4, 5]
  *    [] => []
  */
-function doubleArray(/* arr */) {
-  throw new Error('Not implemented');
+function doubleArray(arr) {
+  return [...arr, ...arr];
 }
 
 /**
@@ -71,8 +75,9 @@ function doubleArray(/* arr */) {
  *    [-1, 2, -5, -4, 0] => [ 2 ]
  *    [] => []
  */
-function getArrayOfPositives(/* arr */) {
-  throw new Error('Not implemented');
+function getArrayOfPositives(arr) {
+  const restul = arr.filter((value) => value > 0);
+  return restul;
 }
 
 /**
