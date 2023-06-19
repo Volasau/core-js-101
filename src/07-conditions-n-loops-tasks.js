@@ -131,8 +131,25 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const oneLeftSide = rect1.left;
+  const oneRightSide = rect1.left + rect1.width;
+  const oneTopSide = rect1.top;
+  const oneBottomSide = rect1.top + rect1.height;
+
+  const twoLeftSide = rect2.left;
+  const twoRightSide = rect2.left + rect2.width;
+  const twoTopSide = rect2.top;
+  const twoBottomSide = rect2.top + rect2.height;
+  if (
+    oneLeftSide < twoRightSide
+    && oneRightSide > twoLeftSide
+    && oneTopSide < twoBottomSide
+    && oneBottomSide > twoTopSide
+  ) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -161,8 +178,13 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const rastiynie = Math.sqrt((point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2);
+
+  if (rastiynie < circle.radius) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -176,8 +198,26 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const elObj = {};
+
+  for (let i = 0; i < str.length; i += 1) {
+    const el = str[i];
+    if (elObj[el]) {
+      elObj[el] += 1;
+    } else {
+      elObj[el] = 1;
+    }
+  }
+
+  for (let i = 0; i < str.length; i += 1) {
+    const el = str[i];
+    if (elObj[el] === 1) {
+      return el;
+    }
+  }
+
+  return null;
 }
 
 /**
@@ -202,8 +242,25 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let leftBracket;
+  if (isStartIncluded) {
+    leftBracket = '[';
+  } else {
+    leftBracket = '(';
+  }
+
+  let rightBracket;
+  if (isEndIncluded) {
+    rightBracket = ']';
+  } else {
+    rightBracket = ')';
+  }
+
+  if (a < b) {
+    return `${leftBracket}${a}, ${b}${rightBracket}`;
+  }
+  return `${leftBracket}${b}, ${a}${rightBracket}`;
 }
 
 /**
@@ -218,8 +275,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 /**
@@ -234,8 +291,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return num.toString().split('').reverse().join('');
 }
 
 /**
@@ -276,8 +333,17 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let result = num;
+  while (result > 9) {
+    let sum = 0;
+    while (result) {
+      sum += result % 10;
+      result = Math.floor(result / 10);
+    }
+    result = sum;
+  }
+  return result;
 }
 
 /**
@@ -301,8 +367,41 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  if (str.length % 2 !== 0) {
+    return false;
+  }
+  if (str.length === 0) {
+    return true;
+  }
+  const open = ['(', '[', '{', '<'];
+  const close = {
+    ')': '(',
+    ']': '[',
+    '}': '{',
+    '>': '<',
+  };
+
+  const stack = [];
+  for (let i = 0; i < str.length; i += 1) {
+    const count = str[i];
+    if (open.includes(count)) {
+      stack.push(count);
+    } else {
+      if (stack.length === 0) {
+        return false;
+      }
+
+      const topEl = stack[stack.length - 1];
+
+      if (close[count] === topEl) {
+        stack.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
 }
 
 /**
